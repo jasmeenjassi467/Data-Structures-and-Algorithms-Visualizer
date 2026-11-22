@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSA Visualizer – Interactive Data Structures Platform</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Mobile Navigation Toggle -->
+    <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h2>DSA Visualizer</h2>
+          <span class="badge badge-accent">Interactive Platform</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <div class="nav-section-label">NAVIGATION</div>
+        <button class="nav-item active" data-target="dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </button>
+
+        <div class="nav-section-label">DATA STRUCTURES</div>
+        <button class="nav-item" data-target="stack-section">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+          <span>Stack (LIFO)</span>
+        </button>
+
+        <button class="nav-item" data-target="queue-section">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+          <span>Queue (FIFO)</span>
+        </button>
+
+        <button class="nav-item" data-target="linkedlist-section">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="12" r="3"></circle>
+            <line x1="9" y1="12" x2="15" y2="12"></line>
+            <polyline points="13 9 16 12 13 15"></polyline>
+          </svg>
+          <span>Linked List</span>
+        </button>
+
+        <button class="nav-item" data-target="bst-section">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="5" r="3"></circle>
+            <circle cx="6" cy="19" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="10.5" y1="7.5" x2="7.5" y2="16.5"></line>
+            <line x1="13.5" y1="7.5" x2="16.5" y2="16.5"></line>
+          </svg>
+          <span>Binary Search Tree</span>
+        </button>
+
+        <div class="nav-section-label">ACADEMIC & CODE</div>
+        <button class="nav-item" data-target="cpp-code-section">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+          <span>C++ Source Files</span>
+        </button>
+
+        <button class="nav-item" data-target="about-section">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>About Project</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-indicator">
+          <span class="pulse-dot"></span>
+          <span>Engine: Ready (Zero-Setup)</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 id="pageTitle">Dashboard Overview</h1>
+          <p id="pageSubtitle">Select any data structure to interact with visual animations and algorithm steps.</p>
+        </div>
+        <div class="topbar-actions">
+          <span class="badge badge-outline">Browser Native</span>
+          <span class="badge badge-primary">Standard C++ Logic</span>
+        </div>
+      </header>
+
+      <!-- Toast Notification Container -->
+      <div id="toastContainer" class="toast-container"></div>
+
+      <!-- SECTION: DASHBOARD LANDING -->
+      <section id="dashboard" class="content-section active">
+        <!-- Hero Banner -->
+        <div class="hero-card">
+          <div class="hero-content">
+            <div class="hero-badge">CS201 Data Structures & Algorithms</div>
+            <h2>Interactive DSA Visualizer Platform</h2>
+            <p>
+              Experience how foundational data structures operate internally. Watch real-time pointer manipulation,
+              dynamic memory changes, and stack frames with step-by-step algorithm logs and companion C++ implementations.
+            </p>
+            <div class="hero-buttons">
+              <button class="btn btn-primary" onclick="navigateTo('stack-section')">Explore Stack</button>
+              <button class="btn btn-secondary" onclick="navigateTo('bst-section')">Explore BST</button>
+              <button class="btn btn-outline" onclick="navigateTo('cpp-code-section')">View C++ Code</button>
+            </div>
+          </div>
+          <div class="hero-graphic">
+            <div class="mini-cube-stack">
+              <div class="cube-item c-1">BST</div>
+              <div class="cube-item c-2">Linked List</div>
+              <div class="cube-item c-3">Queue</div>
+              <div class="cube-item c-4">Stack</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon icon-cyan">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                <path d="M2 17l10 5 10-5"></path>
+                <path d="M2 12l10 5 10-5"></path>
+              </svg>
+            </div>
+            <div class="metric-data">
+              <span class="metric-value">4 Core</span>
+              <span class="metric-label">Data Structures</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon icon-emerald">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div class="metric-data">
+              <span class="metric-value">O(1) to O(n)</span>
+              <span class="metric-label">Complexity Analysis</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon icon-indigo">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="4 17 10 11 4 5"></polyline>
+                <line x1="12" y1="19" x2="20" y2="19"></line>
+              </svg>
+            </div>
+            <div class="metric-data">
+              <span class="metric-value">8 C++ Files</span>
+              <span class="metric-label">Separated Headers &amp; Source</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon icon-amber">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+            </div>
+            <div class="metric-data">
+              <span class="metric-value">Zero Installs</span>
+              <span class="metric-label">Pure HTML/CSS/JS Engine</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modules Grid Cards -->
+        <h3 class="section-title">Explore Interactive Modules</h3>
+        <div class="modules-grid">
+          <!-- Stack Card -->
+          <div class="module-card">
+            <div class="module-card-header">
+              <div class="module-icon icon-cyan">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                  <path d="M2 17l10 5 10-5"></path>
+                  <path d="M2 12l10 5 10-5"></path>
+                </svg>
+              </div>
+              <span class="badge badge-accent">LIFO Principle</span>
+            </div>
+            <h4>Stack</h4>
+            <p>Last-In, First-Out collection with fixed capacity. Visualizes top pointer, push drop animations, pop removals, and underflow/overflow.</p>
+            <div class="module-features">
+              <span>Push / Pop / Peek</span>
+              <span>Overflow Detection</span>
+              <span>O(1) Time</span>
+            </div>
+            <button class="btn btn-outline full-width" onclick="navigateTo('stack-section')">Launch Stack &rarr;</button>
+          </div>
+
+          <!-- Queue Card -->
+          <div class="module-card">
+            <div class="module-card-header">
+              <div class="module-icon icon-emerald">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+              <span class="badge badge-emerald">FIFO Principle</span>
+            </div>
+            <h4>Queue</h4>
+            <p>First-In, First-Out sequence with front and rear pointers. Visualizes queuing from rear and dequeuing from front with real-time shift animations.</p>
+            <div class="module-features">
+              <span>Enqueue / Dequeue</span>
+              <span>Front &amp; Rear Inspection</span>
+              <span>O(1) Time</span>
+            </div>
+            <button class="btn btn-outline full-width" onclick="navigateTo('queue-section')">Launch Queue &rarr;</button>
+          </div>
+
+          <!-- Linked List Card -->
+          <div class="module-card">
+            <div class="module-card-header">
+              <div class="module-icon icon-indigo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="12" r="3"></circle>
+                  <line x1="9" y1="12" x2="15" y2="12"></line>
+                  <polyline points="13 9 16 12 13 15"></polyline>
+                </svg>
+              </div>
+              <span class="badge badge-indigo">Dynamic Nodes</span>
+            </div>
+            <h4>Linked List</h4>
+            <p>Singly linked chain of dynamic node structures connected with pointers. Visualizes Head pointer, pointer rewiring, insertion, deletion, and linear search.</p>
+            <div class="module-features">
+              <span>Insert Head / Tail</span>
+              <span>Node Deletion</span>
+              <span>Animated Search</span>
+            </div>
+            <button class="btn btn-outline full-width" onclick="navigateTo('linkedlist-section')">Launch Linked List &rarr;</button>
+          </div>
+
+          <!-- Binary Search Tree Card -->
+          <div class="module-card">
+            <div class="module-card-header">
+              <div class="module-icon icon-amber">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="5" r="3"></circle>
+                  <circle cx="6" cy="19" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="10.5" y1="7.5" x2="7.5" y2="16.5"></line>
+                  <line x1="13.5" y1="7.5" x2="16.5" y2="16.5"></line>
+                </svg>
+              </div>
+              <span class="badge badge-amber">Hierarchical Tree</span>
+            </div>
+            <h4>Binary Search Tree (BST)</h4>
+            <p>Hierarchical tree maintaining the ordering invariant: left &lt; node &lt; right. Demonstrates node insertion, path search, and three depth-first traversals.</p>
+            <div class="module-features">
+              <span>SVG Tree Layout</span>
+              <span>Inorder / Preorder / Postorder</span>
+              <span>O(log n) Search</span>
+            </div>
+            <button class="btn btn-outline full-width" onclick="navigateTo('bst-section')">Launch BST &rarr;</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: STACK -->
+      <section id="stack-section" class="content-section">
+        <div class="module-layout">
+          <!-- Left Column: Controls & Visualization -->
+          <div class="visualization-pane">
+            <div class="card controls-card">
+              <div class="card-header">
+                <div>
+                  <h3>Stack Operations</h3>
+                  <p class="subtitle">Last In, First Out (LIFO) &bull; Maximum Capacity: 8</p>
+                </div>
+                <div class="card-badges">
+                  <span id="stackSizeBadge" class="badge badge-primary">Size: 0 / 8</span>
+                  <span id="stackTopBadge" class="badge badge-outline">TOP: -1 (Empty)</span>
+                </div>
+              </div>
+
+              <div class="control-actions">
+                <div class="input-action-group">
+                  <input type="number" id="stackInput" placeholder="Enter integer value" min="-999" max="999">
+                  <button class="btn btn-primary" id="btnStackPush">Push</button>
+                  <button class="btn btn-secondary" id="btnStackRandom">Random</button>
+                </div>
+                <div class="button-action-group">
+                  <button class="btn btn-outline" id="btnStackPop">Pop</button>
+                  <button class="btn btn-outline" id="btnStackPeek">Peek</button>
+                  <button class="btn btn-danger" id="btnStackReset">Reset Stack</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visualization Stage -->
+            <div class="card visual-stage-card">
+              <div class="stage-header">
+                <h4>Visual Representation</h4>
+                <div class="stage-legend">
+                  <span class="legend-item"><span class="dot dot-active"></span> Top Element</span>
+                  <span class="legend-item"><span class="dot dot-normal"></span> Stack Elements</span>
+                </div>
+              </div>
+
+              <div class="stack-visual-wrapper">
+                <!-- Stack Container -->
+                <div class="stack-container" id="stackContainer">
+                  <div class="stack-slot" data-index="7"><span class="slot-idx">[7]</span></div>
+                  <div class="stack-slot" data-index="6"><span class="slot-idx">[6]</span></div>
+                  <div class="stack-slot" data-index="5"><span class="slot-idx">[5]</span></div>
+                  <div class="stack-slot" data-index="4"><span class="slot-idx">[4]</span></div>
+                  <div class="stack-slot" data-index="3"><span class="slot-idx">[3]</span></div>
+                  <div class="stack-slot" data-index="2"><span class="slot-idx">[2]</span></div>
+                  <div class="stack-slot" data-index="1"><span class="slot-idx">[1]</span></div>
+                  <div class="stack-slot" data-index="0"><span class="slot-idx">[0]</span></div>
+                </div>
+                <!-- Pointer indicator -->
+                <div class="stack-pointer-track" id="stackPointerTrack">
+                  <div class="pointer-badge" id="stackTopPointer">
+                    <span class="pointer-arrow">&larr;</span>
+                    <span class="pointer-text">TOP</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Algorithm Steps Log -->
+            <div class="card log-card">
+              <div class="card-header">
+                <h4>Execution Trace &amp; Algorithm Steps</h4>
+                <button class="btn-text" id="clearStackLog">Clear Log</button>
+              </div>
+              <div class="log-output" id="stackLog">
+                <div class="log-entry log-system">Stack initialized. Ready for operations. Capacity is set to 8.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Theory, Complexity & Real-world examples -->
+          <div class="theory-pane">
+            <div class="card theory-card">
+              <h3>Concept &amp; Definition</h3>
+              <p>
+                A <strong>Stack</strong> is a linear data structure following the <strong>LIFO (Last In First Out)</strong> principle.
+                The element added last is the first one to be removed. All insertions and deletions take place at a single end called the <strong>TOP</strong>.
+              </p>
+              
+              <div class="alert-box alert-info">
+                <strong>Key Conditions:</strong>
+                <ul>
+                  <li><strong>Overflow:</strong> Occurs when attempting to push onto a stack that has reached maximum capacity.</li>
+                  <li><strong>Underflow:</strong> Occurs when attempting to pop or peek from an empty stack.</li>
+                </ul>
+              </div>
+
+              <h4 class="mt-4">Time &amp; Space Complexity</h4>
+              <div class="complexity-table-wrapper">
+                <table class="complexity-table">
+                  <thead>
+                    <tr>
+                      <th>Operation</th>
+                      <th>Time Complexity</th>
+                      <th>Space Complexity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Push(x)</td><td><code>O(1)</code> Constant</td><td><code>O(1)</code></td></tr>
+                    <tr><td>Pop()</td><td><code>O(1)</code> Constant</td><td><code>O(1)</code></td></tr>
+                    <tr><td>Peek()</td><td><code>O(1)</code> Constant</td><td><code>O(1)</code></td></tr>
+                    <tr><td>Search(x)</td><td><code>O(n)</code> Linear</td><td><code>O(1)</code></td></tr>
+                    <tr><td>Total Space</td><td>-</td><td><code>O(n)</code></td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h4 class="mt-4">Real-World Examples</h4>
+              <ul class="example-list">
+                <li><strong>Undo/Redo</strong> functionality in text editors and graphic design software.</li>
+                <li><strong>Browser History</strong> navigation (Back button pops previous page).</li>
+                <li><strong>Function Call Stack</strong> in operating systems and programming language runtimes.</li>
+                <li><strong>Syntax Parsing</strong> for matching parentheses and HTML tags.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: QUEUE -->
+      <section id="queue-section" class="content-section">
+        <div class="module-layout">
+          <!-- Left Column -->
+          <div class="visualization-pane">
+            <div class="card controls-card">
+              <div class="card-header">
+                <div>
+                  <h3>Queue Operations</h3>
+                  <p class="subtitle">First In, First Out (FIFO) &bull; Maximum Capacity: 8</p>
+                </div>
+                <div class="card-badges">
+                  <span id="queueSizeBadge" class="badge badge-emerald">Size: 0 / 8</span>
+                  <span id="queuePointersBadge" class="badge badge-outline">Front: -1 | Rear: -1</span>
+                </div>
+              </div>
+
+              <div class="control-actions">
+                <div class="input-action-group">
+                  <input type="number" id="queueInput" placeholder="Enter integer value" min="-999" max="999">
+                  <button class="btn btn-emerald" id="btnQueueEnqueue">Enqueue</button>
+                  <button class="btn btn-secondary" id="btnQueueRandom">Random</button>
+                </div>
+                <div class="button-action-group">
+                  <button class="btn btn-outline" id="btnQueueDequeue">Dequeue</button>
+                  <button class="btn btn-outline" id="btnQueueFront">Peek Front</button>
+                  <button class="btn btn-outline" id="btnQueueRear">Peek Rear</button>
+                  <button class="btn btn-danger" id="btnQueueReset">Reset Queue</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visualization Stage -->
+            <div class="card visual-stage-card">
+              <div class="stage-header">
+                <h4>Visual Representation</h4>
+                <div class="stage-legend">
+                  <span class="legend-item"><span class="dot dot-front"></span> Front (Exit)</span>
+                  <span class="legend-item"><span class="dot dot-rear"></span> Rear (Entry)</span>
+                </div>
+              </div>
+
+              <div class="queue-visual-wrapper">
+                <div class="queue-direction-labels">
+                  <span class="direction-badge">&larr; Front (Dequeue Exit)</span>
+                  <span class="direction-badge">Rear (Enqueue Entry) &larr;</span>
+                </div>
+
+                <div class="queue-track" id="queueTrack">
+                  <!-- 8 slots will be rendered dynamically -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Algorithm Steps Log -->
+            <div class="card log-card">
+              <div class="card-header">
+                <h4>Execution Trace &amp; Algorithm Steps</h4>
+                <button class="btn-text" id="clearQueueLog">Clear Log</button>
+              </div>
+              <div class="log-output" id="queueLog">
+                <div class="log-entry log-system">Queue initialized. Ready for operations. Capacity is set to 8.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="theory-pane">
+            <div class="card theory-card">
+              <h3>Concept &amp; Definition</h3>
+              <p>
+                A <strong>Queue</strong> is a linear collection governed by the <strong>FIFO (First In First Out)</strong> principle.
+                The element inserted earliest is removed first. New elements enter at the <strong>Rear</strong>, while elements depart from the <strong>Front</strong>.
+              </p>
+
+              <div class="alert-box alert-info">
+                <strong>Key Conditions:</strong>
+                <ul>
+                  <li><strong>Queue Overflow:</strong> When trying to enqueue into a queue with maximum elements.</li>
+                  <li><strong>Queue Underflow:</strong> When attempting to dequeue or read front/rear from an empty queue.</li>
+                </ul>
+              </div>
+
+              <h4 class="mt-4">Time &amp; Space Complexity</h4>
+              <div class="complexity-table-wrapper">
+                <table class="complexity-table">
+                  <thead>
+                    <tr>
+                      <th>Operation</th>
+                      <th>Time Complexity</th>
+                      <th>Space Complexity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Enqueue(x)</td><td><code>O(1)</code> Constant</td><td><code>O(1)</code></td></tr>
+                    <tr><td>Dequeue()</td><td><code>O(1)</code> Constant</td><td><code>O(1)</code></td></tr>
+                    <tr><td>Front() / Rear()</td><td><code>O(1)</code> Constant</td><td><code>O(1)</code></td></tr>
+                    <tr><td>Search(x)</td><td><code>O(n)</code> Linear</td><td><code>O(1)</code></td></tr>
+                    <tr><td>Total Space</td><td>-</td><td><code>O(n)</code></td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h4 class="mt-4">Real-World Examples</h4>
+              <ul class="example-list">
+                <li><strong>Printer Spooler:</strong> Documents are printed in the order submitted.</li>
+                <li><strong>CPU Task Scheduling:</strong> Ready queue executes tasks sequentially.</li>
+                <li><strong>Customer Service Ticket Queues:</strong> First caller served first.</li>
+                <li><strong>Network Packet Buffering:</strong> Routers hold packets in FIFO buffers.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: LINKED LIST -->
+      <section id="linkedlist-section" class="content-section">
+        <div class="module-layout">
+          <!-- Left Column -->
+          <div class="visualization-pane">
+            <div class="card controls-card">
+              <div class="card-header">
+                <div>
+                  <h3>Singly Linked List Operations</h3>
+                  <p class="subtitle">Dynamic Node Chain with Pointers</p>
+                </div>
+                <div class="card-badges">
+                  <span id="listSizeBadge" class="badge badge-indigo">Nodes: 0</span>
+                  <span id="listHeadBadge" class="badge badge-outline">Head: NULL</span>
+                </div>
+              </div>
+
+              <div class="control-actions">
+                <div class="input-action-group">
+                  <input type="number" id="listInput" placeholder="Enter value (e.g. 42)" min="-999" max="999">
+                  <button class="btn btn-indigo" id="btnListInsertHead">Insert Head</button>
+                  <button class="btn btn-indigo" id="btnListInsertTail">Insert Tail</button>
+                  <button class="btn btn-outline" id="btnListDelete">Delete Value</button>
+                  <button class="btn btn-outline" id="btnListSearch">Search Value</button>
+                </div>
+                <div class="button-action-group">
+                  <button class="btn btn-secondary" id="btnListSample">Load Sample List</button>
+                  <button class="btn btn-danger" id="btnListReset">Reset List</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visualization Stage -->
+            <div class="card visual-stage-card">
+              <div class="stage-header">
+                <h4>Visual Node Chain</h4>
+                <div class="stage-legend">
+                  <span class="legend-item"><span class="dot dot-head"></span> Head Node</span>
+                  <span class="legend-item"><span class="dot dot-normal"></span> Body Node</span>
+                  <span class="legend-item"><span class="dot dot-null"></span> NULL Pointer</span>
+                </div>
+              </div>
+
+              <div class="linkedlist-visual-wrapper">
+                <div class="linkedlist-container" id="linkedlistContainer">
+                  <!-- Nodes rendered dynamically -->
+                  <div class="empty-placeholder">List is currently empty. Head &rarr; NULL</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Algorithm Steps Log -->
+            <div class="card log-card">
+              <div class="card-header">
+                <h4>Execution Trace &amp; Algorithm Steps</h4>
+                <button class="btn-text" id="clearListLog">Clear Log</button>
+              </div>
+              <div class="log-output" id="listLog">
+                <div class="log-entry log-system">Singly Linked List initialized. Head pointer points to NULL.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="theory-pane">
+            <div class="card theory-card">
+              <h3>Concept &amp; Definition</h3>
+              <p>
+                A <strong>Singly Linked List</strong> is a linear dynamic data structure composed of self-referential
+                <strong>Nodes</strong>. Each node stores a data value and a pointer (<code>next</code>) pointing to the successor node.
+                The last node points to <code>NULL</code>.
+              </p>
+
+              <div class="alert-box alert-info">
+                <strong>Pointer Invariants:</strong>
+                <ul>
+                  <li><strong>Head:</strong> Address of the very first node.</li>
+                  <li><strong>Dynamic Sizing:</strong> Does not require contiguous memory or fixed preallocated arrays.</li>
+                  <li><strong>Sequential Traversal:</strong> Direct index access is not possible; elements must be traversed sequentially from Head.</li>
+                </ul>
+              </div>
+
+              <h4 class="mt-4">Time &amp; Space Complexity</h4>
+              <div class="complexity-table-wrapper">
+                <table class="complexity-table">
+                  <thead>
+                    <tr>
+                      <th>Operation</th>
+                      <th>Time Complexity</th>
+                      <th>Space Complexity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Insert at Head</td><td><code>O(1)</code> Constant</td><td><code>O(1)</code></td></tr>
+                    <tr><td>Insert at Tail</td><td><code>O(n)</code> Linear</td><td><code>O(1)</code></td></tr>
+                    <tr><td>Delete by Value</td><td><code>O(n)</code> Linear</td><td><code>O(1)</code></td></tr>
+                    <tr><td>Search by Value</td><td><code>O(n)</code> Linear</td><td><code>O(1)</code></td></tr>
+                    <tr><td>Total Space</td><td>-</td><td><code>O(n)</code></td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h4 class="mt-4">Real-World Examples</h4>
+              <ul class="example-list">
+                <li><strong>Media Players:</strong> Next song chaining in audio/video playlists.</li>
+                <li><strong>Image Viewers:</strong> Next/Previous photo browsing chains.</li>
+                <li><strong>Memory Allocation:</strong> OS free-list memory blocks tracking.</li>
+                <li><strong>Hash Map Buckets:</strong> Separate chaining collision handling.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: BINARY SEARCH TREE -->
+      <section id="bst-section" class="content-section">
+        <div class="module-layout">
+          <!-- Left Column -->
+          <div class="visualization-pane">
+            <div class="card controls-card">
+              <div class="card-header">
+                <div>
+                  <h3>Binary Search Tree Operations</h3>
+                  <p class="subtitle">Hierarchical Invariant: Left &lt; Node &lt; Right &bull; No Duplicates</p>
+                </div>
+                <div class="card-badges">
+                  <span id="bstSizeBadge" class="badge badge-amber">Nodes: 0</span>
+                  <span id="bstRootBadge" class="badge badge-outline">Root: NULL</span>
+                </div>
+              </div>
+
+              <div class="control-actions">
+                <div class="input-action-group">
+                  <input type="number" id="bstInput" placeholder="Enter integer key" min="-999" max="999">
+                  <button class="btn btn-amber" id="btnBstInsert">Insert Node</button>
+                  <button class="btn btn-outline" id="btnBstSearch">Search Node</button>
+                  <button class="btn btn-secondary" id="btnBstSample">Load Balanced Sample</button>
+                </div>
+                <div class="button-action-group">
+                  <button class="btn btn-outline" id="btnBstInorder">Inorder (Sorted)</button>
+                  <button class="btn btn-outline" id="btnBstPreorder">Preorder</button>
+                  <button class="btn btn-outline" id="btnBstPostorder">Postorder</button>
+                  <button class="btn btn-danger" id="btnBstReset">Reset Tree</button>
+                </div>
+              </div>
+
+              <!-- Traversal Output Chip Tray -->
+              <div class="traversal-tray" id="traversalTray" style="display: none;">
+                <div class="tray-header">
+                  <span id="traversalTitle">Traversal Order:</span>
+                  <span class="badge badge-primary" id="traversalTypeBadge">Inorder</span>
+                </div>
+                <div class="chips-container" id="traversalChips"></div>
+              </div>
+            </div>
+
+            <!-- Visualization Stage -->
+            <div class="card visual-stage-card">
+              <div class="stage-header">
+                <h4>Visual Tree Graph</h4>
+                <div class="stage-legend">
+                  <span class="legend-item"><span class="dot dot-root"></span> Root Node</span>
+                  <span class="legend-item"><span class="dot dot-search"></span> Visited / Search Path</span>
+                  <span class="legend-item"><span class="dot dot-found"></span> Target Match</span>
+                </div>
+              </div>
+
+              <div class="bst-visual-wrapper">
+                <svg id="bstSvg" class="bst-svg" viewBox="0 0 900 450" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="3" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                  </defs>
+                  <!-- Edges layer -->
+                  <g id="bstEdgesGroup"></g>
+                  <!-- Nodes layer -->
+                  <g id="bstNodesGroup"></g>
+                </svg>
+                <div id="bstEmptyPlaceholder" class="empty-placeholder">Tree is currently empty. Insert numbers or click "Load Balanced Sample".</div>
+              </div>
+            </div>
+
+            <!-- Algorithm Steps Log -->
+            <div class="card log-card">
+              <div class="card-header">
+                <h4>Execution Trace &amp; Algorithm Steps</h4>
+                <button class="btn-text" id="clearBstLog">Clear Log</button>
+              </div>
+              <div class="log-output" id="bstLog">
+                <div class="log-entry log-system">Binary Search Tree initialized. Root pointer is NULL.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="theory-pane">
+            <div class="card theory-card">
+              <h3>Concept &amp; Definition</h3>
+              <p>
+                A <strong>Binary Search Tree (BST)</strong> is a node-based binary tree data structure which has the following properties:
+              </p>
+              <ul>
+                <li>The left subtree of a node contains only keys <strong>less than</strong> the node's key.</li>
+                <li>The right subtree of a node contains only keys <strong>greater than</strong> the node's key.</li>
+                <li>Both left and right subtrees must also be binary search trees.</li>
+                <li>Duplicate keys are strictly disallowed.</li>
+              </ul>
+
+              <h4 class="mt-4">Traversals Explained</h4>
+              <ul class="example-list">
+                <li><strong>Inorder (Left &rarr; Root &rarr; Right):</strong> Yields keys in ascending sorted order.</li>
+                <li><strong>Preorder (Root &rarr; Left &rarr; Right):</strong> Used for cloning trees and prefix notation.</li>
+                <li><strong>Postorder (Left &rarr; Right &rarr; Root):</strong> Used for bottom-up node deallocation and postfix math.</li>
+              </ul>
+
+              <h4 class="mt-4">Time &amp; Space Complexity</h4>
+              <div class="complexity-table-wrapper">
+                <table class="complexity-table">
+                  <thead>
+                    <tr>
+                      <th>Operation</th>
+                      <th>Average Case</th>
+                      <th>Worst Case</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Search(k)</td><td><code>O(log n)</code></td><td><code>O(n)</code> (Skewed)</td></tr>
+                    <tr><td>Insert(k)</td><td><code>O(log n)</code></td><td><code>O(n)</code> (Skewed)</td></tr>
+                    <tr><td>Traversals</td><td><code>O(n)</code></td><td><code>O(n)</code></td></tr>
+                    <tr><td>Space Complexity</td><td><code>O(n)</code></td><td><code>O(n)</code></td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h4 class="mt-4">Real-World Examples</h4>
+              <ul class="example-list">
+                <li><strong>Database Indexing:</strong> Balanced BST derivatives (B-Trees, AVL, Red-Black Trees).</li>
+                <li><strong>Routing Tables:</strong> IP routing prefix match lookups.</li>
+                <li><strong>File System Hierarchies:</strong> Directory sorting and folder structures.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: C++ SOURCE CODE VIEWER -->
+      <section id="cpp-code-section" class="content-section">
+        <div class="card mb-4">
+          <div class="card-header">
+            <div>
+              <h3>C++ Academic Implementation Files</h3>
+              <p class="subtitle">Complete, beginner-friendly standard C++ source code provided in the project repository.</p>
+            </div>
+            <div class="card-badges">
+              <span class="badge badge-accent">C++11/14/17 Compatible</span>
+              <span class="badge badge-outline">Header &amp; Source Separation</span>
+            </div>
+          </div>
+
+          <div class="alert-box alert-info">
+            <strong>Architecture Note:</strong>
+            The browser interface executes identical JavaScript algorithmic logic for rich visual demonstrations.
+            The corresponding <code>.h</code> and <code>.cpp</code> files in the <code>cpp/</code> folder contain the equivalent
+            authentic C++ implementations designed for academic coursework submission, manual compiling, and grading.
+          </div>
+
+          <!-- Code Tabs -->
+          <div class="code-tabs-nav">
+            <button class="code-tab-btn active" data-code="stack_h">stack.h</button>
+            <button class="code-tab-btn" data-code="stack_cpp">stack.cpp</button>
+            <button class="code-tab-btn" data-code="queue_h">queue.h</button>
+            <button class="code-tab-btn" data-code="queue_cpp">queue.cpp</button>
+            <button class="code-tab-btn" data-code="list_h">linkedlist.h</button>
+            <button class="code-tab-btn" data-code="list_cpp">linkedlist.cpp</button>
+            <button class="code-tab-btn" data-code="bst_h">bst.h</button>
+            <button class="code-tab-btn" data-code="bst_cpp">bst.cpp</button>
+            <button class="code-tab-btn" data-code="main_cpp">main.cpp</button>
+          </div>
+
+          <!-- Code Display Container -->
+          <div class="code-viewer-container">
+            <div class="code-header">
+              <span id="currentCodeFileName" class="code-filename">cpp/stack.h</span>
+              <button class="btn btn-outline btn-sm" id="btnCopyCode">Copy File Content</button>
+            </div>
+            <pre class="code-block"><code id="codeDisplayArea"></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: ABOUT PROJECT -->
+      <section id="about-section" class="content-section">
+        <div class="card mb-4">
+          <div class="card-header">
+            <div>
+              <h3>About DSA Visualizer</h3>
+              <p class="subtitle">Academic Project Submission Documentation</p>
+            </div>
+            <span class="badge badge-emerald">Final Coursework Project</span>
+          </div>
+
+          <div class="about-grid">
+            <div class="about-card">
+              <h4>Project Objective</h4>
+              <p>
+                To bridge theoretical data structure lectures with hands-on, interactive visual feedback.
+                Students can inspect each step of fundamental algorithms, observe pointer transitions, and correlate
+                animations with real-world time and space complexities.
+              </p>
+            </div>
+
+            <div class="about-card">
+              <h4>Technologies Used</h4>
+              <ul class="styled-list">
+                <li><strong>HTML5:</strong> Semantic document structure and SVG canvas elements.</li>
+                <li><strong>CSS3:</strong> Responsive CSS Grid/Flexbox, transitions, custom properties and dark mode theme.</li>
+                <li><strong>Vanilla JavaScript (ES6+):</strong> State management, algorithmic step tracing, and visual rendering without external libraries.</li>
+                <li><strong>ISO Standard C++:</strong> Modular header files (<code>.h</code>) and source implementations (<code>.cpp</code>).</li>
+              </ul>
+            </div>
+
+            <div class="about-card">
+              <h4>Key Project Features</h4>
+              <ul class="styled-list">
+                <li>Complete operational coverage: Push, Pop, Peek, Enqueue, Dequeue, Insert (Head/Tail), Delete, Search, and 3 Tree Traversals.</li>
+                <li>Edge-case validation: Empty inputs, boundary checks, duplicate BST values, stack/queue overflow &amp; underflow.</li>
+                <li>Live Execution Tracer: Logs algorithmic micro-steps for clear grading demonstration.</li>
+                <li>Zero-dependency portability: Double-click <code>index.html</code> to run anywhere.</li>
+              </ul>
+            </div>
+
+            <div class="about-card">
+              <h4>Verification &amp; Testing Instructions</h4>
+              <ol class="styled-numbered-list">
+                <li><strong>Browser Testing:</strong> Double-click <code>index.html</code> in any web browser (Chrome, Edge, Firefox, Brave, Safari).</li>
+                <li><strong>Interactive Verification:</strong> Use the sidebar to visit each module. Try normal values, boundary values (empty input, duplicates), and reset buttons.</li>
+                <li><strong>C++ Verification:</strong> Open the <code>cpp/</code> folder. If a C++ compiler (like <code>g++</code>) is available, compile with:
+                  <code>g++ main.cpp stack.cpp queue.cpp linkedlist.cpp bst.cpp -o dsa_demo</code> and run <code>./dsa_demo</code>.
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <!-- Overall Complexity Matrix -->
+          <h4 class="mt-4 mb-2">Comprehensive Complexity Reference Matrix</h4>
+          <div class="complexity-table-wrapper">
+            <table class="complexity-table">
+              <thead>
+                <tr>
+                  <th>Data Structure</th>
+                  <th>Primary Principle</th>
+                  <th>Access</th>
+                  <th>Search</th>
+                  <th>Insertion</th>
+                  <th>Deletion</th>
+                  <th>Space</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Stack</strong></td>
+                  <td>LIFO</td>
+                  <td><code>O(1)</code> (Top)</td>
+                  <td><code>O(n)</code></td>
+                  <td><code>O(1)</code></td>
+                  <td><code>O(1)</code></td>
+                  <td><code>O(n)</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Queue</strong></td>
+                  <td>FIFO</td>
+                  <td><code>O(1)</code> (Front)</td>
+                  <td><code>O(n)</code></td>
+                  <td><code>O(1)</code></td>
+                  <td><code>O(1)</code></td>
+                  <td><code>O(n)</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Singly Linked List</strong></td>
+                  <td>Linear Pointer Chain</td>
+                  <td><code>O(n)</code></td>
+                  <td><code>O(n)</code></td>
+                  <td><code>O(1)</code> (Head) / <code>O(n)</code></td>
+                  <td><code>O(n)</code></td>
+                  <td><code>O(n)</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Binary Search Tree</strong></td>
+                  <td>Hierarchical (L &lt; Node &lt; R)</td>
+                  <td><code>O(log n)</code></td>
+                  <td><code>O(log n)</code> avg</td>
+                  <td><code>O(log n)</code> avg</td>
+                  <td><code>O(log n)</code> avg</td>
+                  <td><code>O(n)</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
